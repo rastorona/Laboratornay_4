@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_detail);
+
         detailBinding = DataBindingUtil.setContentView(this , R.layout.activity_detail);
 
         Intent intent = getIntent();
@@ -39,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
 
         int position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
         if (position == DEFAULT_POSITION) {
-            // EXTRA_POSITION not found in intent
+
             closeOnError();
             return;
         }
@@ -48,12 +48,11 @@ public class DetailActivity extends AppCompatActivity {
         String jsonText = sandwiches[position];
         Sandwich sandwich = JsonUtils.parseSandwichJson(jsonText);
         if (sandwich == null) {
-            // Sandwich data unavailable
             closeOnError();
             return;
         }
 
-        // moved all UI fields into one method
+
         populateUI(sandwich);
 
     }
@@ -63,12 +62,9 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Populate activity views with sandwich details
-     * @param sandwich Sandwich object with details for the activity
-     */
+
     private void populateUI(Sandwich sandwich) {
-        // Get string values and set defaults if necessary
+
         String mainNameValue = sandwich.getMainName();
         String imgUrlValue = sandwich.getImage();
         String originValue = sandwich.getPlaceOfOrigin();
@@ -81,20 +77,19 @@ public class DetailActivity extends AppCompatActivity {
                 DEFAULT_INGREDIENTS: TextUtils.join(DELIMITER, sandwich.getIngredients());
         String descriptionValue = sandwich.getDescription();
 
-        /*
         ImageView ingredientsIv = findViewById(R.id.image_iv);
         TextView mainNameTv = findViewById(R.id.main_name_tv);
         TextView alsoKnownAsTv = findViewById(R.id.also_known_tv);
         TextView originTv = findViewById(R.id.origin_tv);
         TextView descriptionTv = findViewById(R.id.description_tv);
         TextView ingredientsTv = findViewById(R.id.ingredients_tv);
-        */
+
 
         setTitle(mainNameValue);
 
         Picasso.with(this)
                 .load(imgUrlValue)
-                .error(R.mipmap.no_image_available) // using an image with text (created in Pinta)
+                .error(R.mipmap.no_image_available)
                 .into(detailBinding.imageIv);
 
         detailBinding.mainNameTv.setText(mainNameValue);
